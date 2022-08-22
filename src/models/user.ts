@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export const UserSchema = new Schema({
   name: {
@@ -14,3 +14,5 @@ export const UserSchema = new Schema({
     required: false,
   },
 });
+
+export default model("User", UserSchema);
