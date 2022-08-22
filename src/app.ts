@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import "dotenv/config";
 import firebase from "firebase-admin";
-// import { SERVICE_ACCOUNT } from "../config";
-import SERVICE_ACCOUNT from "../config/service-account.json";
+import { SERVICE_ACCOUNT } from "../config";
+import "dotenv/config";
+
 export class App {
   private express: express.Application;
   private port = process.env.PORT || (3333 as number);
@@ -11,17 +11,20 @@ export class App {
   constructor() {
     this.express = express();
     this.listen();
+    this.defaultMiddleware();
     this.connectToDataBase();
-  }
-
-  public getApp(): express.Application {
-    return this.express;
   }
 
   private listen(): void {
     this.express.listen(this.port, () =>
       console.log(`listening on: ${this.port}`)
     );
+  }
+
+  private defaultMiddleware(): void {
+    this.express.use(express.json());
+    this.express.use(express.urlencoded({ extended: true }));
+    this.express.use(cors);
   }
 
   private connectToDataBase() {
@@ -32,6 +35,10 @@ export class App {
       projectId: "node-ts-api",
       storageBucket: "gs://node-ts-api.appspot.com",
     });
+  }
+
+  public getApp(): express.Application {
+    return this.express;
   }
 
   public firestore() {
