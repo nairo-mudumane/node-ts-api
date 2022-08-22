@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
+import routes from "./routes";
 
 export class App {
   private express: express.Application;
@@ -24,17 +25,14 @@ export class App {
     this.express.use(express.json());
     this.express.use(express.urlencoded({ extended: true }));
     this.express.use(cors);
+    this.express.use(routes);
   }
 
   private async connectToDataBase(): Promise<void> {
-    console.log("connecting to database...");
-
     const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.pli5ivq.mongodb.net/?retryWrites=true&w=majority`;
 
     try {
-      await mongoose
-        .connect(uri)
-        .then(() => console.log("connected to database"));
+      mongoose.connect(uri);
     } catch (error) {
       console.log("database connection error:");
       console.log(error);
