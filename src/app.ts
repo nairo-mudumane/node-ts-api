@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
-import firebase from "firebase-admin";
-import { SERVICE_ACCOUNT } from "../config";
+import mongoose from "mongoose";
 import "dotenv/config";
 
 export class App {
@@ -27,32 +26,22 @@ export class App {
     this.express.use(cors);
   }
 
-  private connectToDataBase() {
-    firebase.initializeApp({
-      // @ts-ignore
-      credential: firebase.credential.cert(SERVICE_ACCOUNT),
-      databaseURL: "https://node-ts-api.firebaseio.com/",
-      projectId: "node-ts-api",
-      storageBucket: "gs://node-ts-api.appspot.com",
-    });
+  private async connectToDataBase(): Promise<void> {
+    console.log("connecting to database...");
+
+    const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster1.pli5ivq.mongodb.net/?retryWrites=true&w=majority`;
+
+    try {
+      await mongoose
+        .connect(uri)
+        .then(() => console.log("connected to database"));
+    } catch (error) {
+      console.log("database connection error:");
+      console.log(error);
+    }
   }
 
   public getApp(): express.Application {
     return this.express;
-  }
-
-  public firestore() {
-    const firestore = firebase.firestore();
-    return firestore;
-  }
-
-  public storage() {
-    const storage = firebase.storage().bucket();
-    return storage;
-  }
-
-  public realtime() {
-    const realtime = firebase.app().database();
-    return realtime;
   }
 }
