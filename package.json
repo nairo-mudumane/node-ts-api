@@ -1,9 +1,9 @@
 {
-  "name": "node-ts-template-starter",
+  "name": "node-ts-api",
   "version": "1.0.0",
-  "description": "Settings template to use NodeJS in conjunction with TypeScript",
+  "description": "A simple api restful with node and typescript",
   "main": "./src/index.ts",
-  "displayName": "Node + TypeScript Template Starter",
+  "displayName": "Node + TypeScript API",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -13,11 +13,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:nairo-mudumane/node-ts-template-starter.git"
+    "url": "https://github.com/nairo-mudumane/node-ts-api.git"
   },
   "bugs": {
     "email": "nairomudumane@outlook.com",
-    "url": "https://github.com/nairo-mudumane/node-ts-template-starter/issues"
+    "url": "https://github.com/nairo-mudumane/node-ts-api/issues"
   },
   "author": {
     "email": "nairomudumane@outlook.com",
@@ -32,7 +32,6 @@
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
-    "@types/mongoose": "^5.11.97",
     "@types/node": "^18.7.8",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
@@ -51,8 +50,8 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "mongodb": "^4.9.0",
-    "mongoose": "^6.5.2"
+    "firebase-admin": "^11.0.1"
   }
 }

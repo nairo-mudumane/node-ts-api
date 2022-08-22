@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
-import mongoose from "mongoose";
-import { MongoClient, ServerApiVersion } from "mongodb";
-
+import "dotenv/config";
+import firebase from "firebase-admin";
+// import { SERVICE_ACCOUNT } from "../config";
+import SERVICE_ACCOUNT from "../config/service-account.json";
 export class App {
   private express: express.Application;
   private port = process.env.PORT || (3333 as number);
@@ -10,7 +11,7 @@ export class App {
   constructor() {
     this.express = express();
     this.listen();
-    this.connectToDatabase();
+    this.connectToDataBase();
   }
 
   public getApp(): express.Application {
@@ -23,15 +24,28 @@ export class App {
     );
   }
 
-  private connectToDatabase(): void {
-    const uri =
-      "mongodb+srv://root:<password>@cluster0.krg27ju.mongodb.net/?retryWrites=true&w=majority";
-    const client = new MongoClient(uri, {
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-      serverApi: ServerApiVersion.v1,
+  private connectToDataBase() {
+    firebase.initializeApp({
+      // @ts-ignore
+      credential: firebase.credential.cert(SERVICE_ACCOUNT),
+      databaseURL: "https://node-ts-api.firebaseio.com/",
+      projectId: "node-ts-api",
+      storageBucket: "gs://node-ts-api.appspot.com",
     });
+  }
 
-    client.connect();
+  public firestore() {
+    const firestore = firebase.firestore();
+    return firestore;
+  }
+
+  public storage() {
+    const storage = firebase.storage().bucket();
+    return storage;
+  }
+
+  public realtime() {
+    const realtime = firebase.app().database();
+    return realtime;
   }
 }

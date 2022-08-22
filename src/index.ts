@@ -1,3 +1,2 @@
 import { App } from "./app";
-
-new App();
+const app = new App();
