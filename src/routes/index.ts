@@ -1,9 +1,2 @@
-import { Router } from "express";
-import { UserController } from "../controllers";
-
-const router = Router();
-const userController = new UserController();
-
-export default () => {
-  router.route("/users").post(userController.setUser);
-};
+export { default as userRoutes } from "./user.routes";
+export { default as notFoundRoutes } from "./notFound.routes";
